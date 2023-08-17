@@ -33,11 +33,11 @@ public class OrderItem implements Serializable {
 	}
 
 	@JsonIgnore
-	public Order getOrders() {
+	public Order getOrder() {
 		return id.getOrder();
 	}
 	
-	public void setOrders(Order order) {
+	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
 	

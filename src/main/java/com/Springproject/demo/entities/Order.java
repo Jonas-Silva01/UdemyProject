@@ -2,7 +2,9 @@ package com.Springproject.demo.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.Springproject.demo.entities.enm.OrderStatus;
 
@@ -12,11 +14,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="tb_order")
-public class Orders implements Serializable{
+public class Order implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -32,10 +35,13 @@ public class Orders implements Serializable{
 	@JoinColumn(name = "client_id") 
 	private User client;
 
-	public Orders () {
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
+	
+	public Order () {
 	}
 	
-	public Orders(Long id, Instant moment,OrderStatus orderStatus, User client) {
+	public Order(Long id, Instant moment,OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
@@ -77,6 +83,10 @@ public class Orders implements Serializable{
 		this.client = client;
 	}
 
+	public Set<OrderItem> getItems(){
+		return items;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -90,7 +100,7 @@ public class Orders implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Orders other = (Orders) obj;
+		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
 	}
 
